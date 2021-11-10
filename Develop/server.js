@@ -30,10 +30,10 @@ app.get('/api/notes', (req,res) => {
 app.post('/api/notes', (req,res) =>{
     console.log(`${req.method} method received`);
 
-    const { title, text, id }  = req.body;
-    console.log(title + text + id);
+    const { title, text}  = req.body;
+    
     if(title && text){
-    const newNote = {
+    const note = {
         title,
         text,
         id: uid(),
@@ -45,7 +45,7 @@ app.post('/api/notes', (req,res) =>{
         }else {
             const parsedNotes = JSON.parse(data);
 
-            parsedNotes.push(newNote);
+            parsedNotes.push(note);
 
             fs.writeFile('./db/db.json', JSON.stringify(parsedNotes, null, 4), (writeErr) =>
             (writeErr) =>
@@ -58,10 +58,10 @@ app.post('/api/notes', (req,res) =>{
 
     const response = {
         status :'success',
-        body: newNote,
+        body: note,
     };
 
-        res.status(201).json(response);
+        res.json(note);
     }else {
         res.status(500).json('Error in posting Note');
     }
