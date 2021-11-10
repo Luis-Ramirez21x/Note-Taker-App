@@ -5,6 +5,8 @@ const uid = require('./helper/uniqueId');
 
 const PORT = 3001;
 const notes = require('./db/db.json');
+const dataBase = fs.readFileSync("./db/db.json");
+const currentDataBase = JSON.parse(dataBase);
 
 const app = express();
 
@@ -25,6 +27,7 @@ app.get('/notes', (req,res) =>{
 
 app.get('/api/notes', (req,res) => {
     res.json(notes);
+    console.log('getting saved notes');
 });
 
 app.post('/api/notes', (req,res) =>{
@@ -56,10 +59,7 @@ app.post('/api/notes', (req,res) =>{
         }
     });
 
-    const response = {
-        status :'success',
-        body: note,
-    };
+
 
         res.json(note);
     }else {
